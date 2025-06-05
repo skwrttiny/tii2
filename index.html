@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Tabela do PostgreSQL</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dados do Banco</h1>
+  <table id="tabela">
+    <thead id="cabecalho"></thead>
+    <tbody id="corpo"></tbody>
+  </table>
+
+  <script>
+    fetch('http://localhost:3000/dados')
+      .then(res => res.json())
+      .then(dados => {
+        const cabecalho = document.getElementById('cabecalho');
+        const corpo = document.getElementById('corpo');
+
+        if (dados.length > 0) {
+          const colunas = Object.keys(dados[0]);
+
+          // Cabeçalho
+          const linhaCab = document.createElement('tr');
+          colunas.forEach(col => {
+            const th = document.createElement('th');
+            th.textContent = col;
+            linhaCab.appendChild(th);
+          });
+          cabecalho.appendChild(linhaCab);
+
+          // Corpo da tabela
+          dados.forEach(linha => {
+            const tr = document.createElement('tr');
+            colunas.forEach(col => {
+              const td = document.createElement('td');
+              td.textContent = linha[col];
+              tr.appendChild(td);
+            });
+            corpo.appendChild(tr);
+          });
+        }
+      });
+  </script>
+</body>
+</html>
