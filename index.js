@@ -9,11 +9,12 @@ app.use(cors());
 
 // Configure sua conexão PostgreSQL
 const pool = new Pool({
-  host: 'localhost',
-  port: 5432,
-  user: 'postgres',
-  password: '@Dfgo3636',
-  database: 'tii2',
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  port: process.env.PGPORT,
+  ssl: process.env.PGSSLMODE === 'require' ? { rejectUnauthorized: false } : false
 });
 
 // Rota que retorna os dados da tabela
